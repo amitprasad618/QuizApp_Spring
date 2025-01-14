@@ -1,8 +1,11 @@
 package com.amit.quizApp.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.amit.quizApp.dao.QuestionDao;
@@ -15,24 +18,50 @@ public class QuestionService {
     @Autowired
     QuestionDao questionDao;
 
-    public List<Question> getAllQuestions() {
-        return questionDao.findAll();
+    public ResponseEntity<List<Question>> getAllQuestions() {
+        try{
+            return new ResponseEntity<>(questionDao.findAll(), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
     }
 
-    public Question getdatabyId(int ID) {
-        return questionDao.findQuestionByIdNative(ID);
+    public ResponseEntity<Question> getdatabyId(int ID) {
+        try{
+            return new ResponseEntity<>(questionDao.findQuestionByIdNative(ID), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(new Question(), HttpStatus.BAD_REQUEST);
     }
 
-    public List<Question> getdatabyCategory(String category) {
-        return questionDao.findQuestionByCategoryNative(category);
+    public ResponseEntity<List<Question>> getdatabyCategory(String category) {
+        try{
+            return new ResponseEntity<>(questionDao.findQuestionByCategoryNative(category), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
     }
 
-    public Question addQuestion(Question question) {
-        return questionDao.save(question);
+    public ResponseEntity<Question> addQuestion(Question question) {
+        try{
+            return new ResponseEntity<>(questionDao.save(question), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(new Question(), HttpStatus.BAD_REQUEST);
     }
 
-    public void deleteQuestion(int id) {
-        questionDao.deleteById(id);
+    public ResponseEntity<String> deleteQuestion(int id) {
+        try{
+            questionDao.deleteById(id);
+            return new ResponseEntity<>("Deleted Sucessfully", HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>("BAD REQUEST", HttpStatus.BAD_REQUEST);
     }
 
 }
