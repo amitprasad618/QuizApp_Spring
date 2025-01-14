@@ -12,10 +12,11 @@ import com.amit.quizApp.model.Question;
 @Repository
 public interface QuestionDao extends JpaRepository<Question, Integer> {
     
-    @Query(value = "SELECT * FROM questions WHERE id = :ID", nativeQuery = true)
+    @Query(value = "SELECT * FROM question WHERE id = :ID", nativeQuery = true)
     Question findQuestionByIdNative(@Param("ID") int ID);
 
-    @Query(value = "SELECT * FROM questions", nativeQuery = true)
-    List<Question> findAll();
-    
+    @Query(value = "SELECT * FROM question WHERE category = :category", nativeQuery = true)
+    List<Question> findQuestionByCategoryNative(@Param("category") String category);
+
+
 }

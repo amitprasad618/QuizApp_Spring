@@ -23,4 +23,16 @@ public class QuestionService {
         return questionDao.findQuestionByIdNative(ID);
     }
 
+    public List<Question> getdatabyCategory(String category) {
+        return questionDao.findQuestionByCategoryNative(category);
+    }
+
+    public Question addQuestion(Question question) {
+        return questionDao.save(question);
+    }
+
+    public void deleteQuestion(int id) {
+        questionDao.deleteById(id);
+    }
+
 }
