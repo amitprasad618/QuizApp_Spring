@@ -13,6 +13,7 @@ import com.amit.quizApp.dao.QuestionDao;
 import com.amit.quizApp.dao.QuizDao;
 import com.amit.quizApp.model.Question;
 import com.amit.quizApp.model.QuestionWrapper;
+import com.amit.quizApp.model.QuestionsResponse;
 import com.amit.quizApp.model.Quiz;
 
 @Service
@@ -46,5 +47,19 @@ public class QuizService {
         }
 
         return new ResponseEntity<>(questionForUser, HttpStatus.OK);
+    }
+
+    public ResponseEntity<Integer> calculateResult(Integer id, List<QuestionsResponse> responses) {
+        Quiz quiz = quizdao.findById(id).get();
+        List<Question> questions = quiz.getQuestions();
+        int right = 0;
+        int i=0;
+        for(QuestionsResponse res : responses) {
+            if(res.getResponse().equals(questions.get(i).getRightanswer()))
+                right++;
+            i++;
+        }
+
+        return new ResponseEntity<>(right, HttpStatus.OK);
     }
 }
